@@ -1,0 +1,118 @@
+{% extends 'admin/base.html' %}
+
+{% block subtitle %} - Utenti {% endblock %}
+
+{% block content_right -%}
+	<h1>Utenti</h1>
+	
+	{% for message in get_flashed_messages() %}
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			{{ message }}
+		</div>
+	{% endfor %}
+
+	<p>
+		<button class="btn btn-small" onclick="addUser()"><i class="icon-plus-sign"> </i> Nuovo Utente</button>
+	</p>
+
+	<table class="table">
+		<tbody>
+			{% for user in users %}
+				<tr>
+					<td>
+						<a href="{{ url_for('auth.admin.users_get', userid=user.id) }}" class="modUser">{{ user.name }} {{ user.username }}</a>
+					</td>
+					<td>
+						{{ user.usertype_translated() }}
+					</td>
+					<td>
+						{{ user.role_translated() }}
+					</td>
+					<td>
+						<button class="btn btn-danger btn-mini">Elimina</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="4">
+					<small>{{ users|count }} utenti</small>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+	
+	<div id="UserModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel" aria-hidden="true">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="UserModalLabel">Modifica Utente</h3>
+	  </div>
+	  <div class="modal-body">
+		<form class="form-horizontal" id="UserModalForm" action="{{ url_for('auth.admin.users_save') }}" method="post">
+			<input type="hidden" id="inputId" name="userid" value="">
+		  <div class="control-group">
+			<label class="control-label">Tipologia Utente</label>
+			<div class="controls">
+			{% for (typeid, typedesc) in usertypes.iteritems() %}
+				<label class="radio inline">
+					<input type="radio" name="usertype" value="{{ typeid }}"> {{ typedesc }}
+				</label>
+			{% endfor %}
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" for="inputName">Nome</label>
+			<div class="controls">
+			  <input type="text" id="inputName" name="name" placeholder="Nome o descrizione">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" for="inputUsername">Username</label>
+			<div class="controls">
+			  <input type="text" id="inputUsername" name="username" placeholder="Username">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" for="inputPassword">Password</label>
+			<div class="controls">
+			  <input type="password" id="inputPassword" name="password" placeholder="Password">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<div class="controls">
+			  <input type="password" id="inputPasswordChk" name="passwordchk" placeholder="Conferma password">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" for="inputNotes">Note</label>
+			<div class="controls">
+			  <textarea id="inputNotes" name="notes"></textarea>
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" for="inputRole">Ruolo</label>
+			<div class="controls">
+				<select id="inputRole" name="role">
+				{% for (roleid, roledesc) in userroles.iteritems() %}
+					<option value="{{ roleid }}">{{ roledesc }}</option>
+				{% endfor %}
+				</select>
+			</div>
+		  </div>
+		</form>
+	  </div>
+	  <div class="modal-footer">
+		Ultimo login: <span id="UserModalLastLogin"></span>
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		<button class="btn btn-primary" id="UserModalSaveBtn" onclick="saveUser()">Salva</button>
+	  </div>
+	</div>
+{%- endblock %}
+
+
+{% block foot -%}
+	<script src="/static/js/admin/users.js"></script>
+{%- endblock %}
+

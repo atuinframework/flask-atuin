@@ -1,0 +1,33 @@
+<br>
+	{% for message in get_flashed_messages() %}
+		<div class="alert alert-error">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<strong>Attenzione!</strong> {{ message }}
+		</div>
+	{% endfor %}
+<form class="form-horizontal" action="{{ url_for('auth.login') }}" method="post">
+	{% if next %}
+		<input type="hidden" name="next" value="{{ next }}">
+	{% endif %}
+  <div class="control-group">
+    <label class="control-label" for="inputUsername">Username</label>
+    <div class="controls">
+      <input type="text" id="inputUsername" name="username" placeholder="Username">
+		<script>$('#inputUsername').focus()</script>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Password</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" name="password" placeholder="Password">
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+<!--      <label class="checkbox">
+        <input type="checkbox"> Remember me
+      </label>
+-->      <button type="submit" class="btn btn-primary">Sign in <i class="icon-chevron-right icon-white"> </i></button>
+    </div>
+  </div>
+</form>
