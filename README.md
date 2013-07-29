@@ -1,6 +1,6 @@
 # Flask - Atuin
 
-Atuin is Scalebox's flask skeleton
+Atuin is Scalebox's Flask web application skeleton
 
 ## Package requirements (TODO: pip requirements file):
 
@@ -92,11 +92,11 @@ Installation
 
 # Other tools
 
-## App python shell:
+## App Python shell:
 
     ./shell.py
 
-with models preloaded
+with `auth.models` preloaded
 
     ./shell.py auth
 
