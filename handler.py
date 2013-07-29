@@ -27,6 +27,19 @@ if settings.DEBUG:
 else:
 	cache = Cache(app, config=settings.CACHE_CONFIG)
 
+def lurl_for(ep, language=None, **kwargs):
+	if language:
+		# language override
+		# try the url with *language*, then without
+		try:
+			return url_for(ep[:-2]+language, **kwargs)
+		except Exception:
+			return url_for(ep, **kwargs)
+	
+	# no override, current language
+	return url_for(ep+'_'+g.language, **kwargs)
+	
+
 @app.before_request
 def func():
 	g.cache = cache
@@ -39,7 +52,7 @@ def func():
 		g.babel = babel
 		g.available_languages = settings.MULTILANGUAGE_LANGS
 		g.language = babel_get_locale().language
-		g.lurl_for = lambda ep, **kwargs: url_for(ep+'_'+g.language, **kwargs)
+		g.lurl_for = lurl_for
 
 if settings.MULTILANGUAGE:
 	@babel.localeselector
