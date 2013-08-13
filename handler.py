@@ -53,6 +53,8 @@ def func():
 		g.available_languages = settings.MULTILANGUAGE_LANGS
 		g.language = babel_get_locale().language
 		g.lurl_for = lurl_for
+	else:
+		g.lurl_for = url_for
 
 if settings.MULTILANGUAGE:
 	@babel.localeselector
