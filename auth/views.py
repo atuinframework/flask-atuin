@@ -30,10 +30,10 @@ def login():
 					flash('Login error')
 			else:
 				#error invalid user/pass
-				flash('Username o password errata')
+				flash('Unknown username or password')
 		else:
 			#invalid user
-			flash('Username o password errata')
+			flash('Unknown username or password')
 	
 	return render_template('auth/loginpage.html', menuid="login", next=request.args.get("next"))
 

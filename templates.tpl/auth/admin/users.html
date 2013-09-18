@@ -1,19 +1,18 @@
 {% extends 'admin/base.html' %}
 
-{% block subtitle %} - Utenti {% endblock %}
+{% block subtitle %} - Users {% endblock %}
 
 {% block content_right -%}
-	<h1>Utenti</h1>
+	<h1>Users</h1>
 	
 	{% for message in get_flashed_messages() %}
 		<div class="alert alert-success">
-			<button type="button" class="close" data-dismiss="alert">×</button>
 			{{ message }}
 		</div>
 	{% endfor %}
 
 	<p>
-		<button class="btn btn-small" onclick="addUser()"><i class="icon-plus-sign"> </i> Nuovo Utente</button>
+		<button class="btn btn-small btn-default" onclick="addUser()"><i class="icon-plus-sign"> </i> New User</button>
 	</p>
 
 	<table class="table">
@@ -30,7 +29,7 @@
 						{{ user.role_translated() }}
 					</td>
 					<td>
-						<button class="btn btn-danger btn-mini">Elimina</button>
+						<button class="btn btn-danger btn-sm">Delete</button>
 					</td>
 				</tr>
 			{% endfor %}
@@ -38,7 +37,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="4">
-					<small>{{ users|count }} utenti</small>
+					<small>{{ users|count }} users</small>
 				</td>
 			</tr>
 		</tfoot>
