@@ -1,7 +1,7 @@
 # - coding: utf-8 -
 import datetime
 from flask.blueprints import Blueprint
-from flask import render_template, jsonify, flash, request, session
+from flask import render_template, jsonify, flash, request, session, redirect
 
 from auth import login_required, current_user
 
@@ -40,16 +40,18 @@ def users_get(userid):
 
 
 @bp.route("/users/save", methods=['POST'])
+@bp.route("/users/<int:userid>", methods=['POST'])
 @login_required
-def users_save():
+def users_save(userid=None):
 	if not request.form.get('usertype') or not request.form.get('username') or not request.form.get('role'):
 		return 'MISSING_PARAMETERS', 400
-	if request.form['userid'] == '':
+	
+	if userid:
+		#edit user
+		user = User.query.get_or_404(userid)
+	else:
 		#new user
 		user = User()
-	else:
-		#edit user
-		user = User.query.get_or_404(request.form['userid'])
 		
 	user.usertype = request.form['usertype']
 	user.username = request.form['username']
@@ -63,6 +65,6 @@ def users_save():
 	db.session.add(user)
 	db.session.commit()
 	
-	flash(u'L\'utente %s è stato modificato' % user.username)
-	return ''
+	flash(u'User %s saved' % user.username)
+	return redirect('auth.admin.users_index')
 

@@ -12,15 +12,15 @@
 	{% endfor %}
 
 	<p>
-		<button class="btn btn-small btn-default" onclick="addUser()"><i class="icon-plus-sign"> </i> New User</button>
+		<button class="btn btn-small btn-default newUserBtn" data-url="{{ url_for('auth.admin.users_save') }}"><i class="icon-plus-sign"> </i> New User</button>
 	</p>
-
+	
 	<table class="table">
 		<tbody>
 			{% for user in users %}
 				<tr>
 					<td>
-						<a href="{{ url_for('auth.admin.users_get', userid=user.id) }}" class="modUser">{{ user.name }} {{ user.username }}</a>
+						<a href="{{ url_for('auth.admin.users_get', userid=user.id) }}" data-url="{{ url_for('auth.admin.users_save', userid=user.id) }}" class="modUser">{{ user.name }} {{ user.username }}</a>
 					</td>
 					<td>
 						{{ user.usertype_translated() }}
@@ -43,71 +43,82 @@
 		</tfoot>
 	</table>
 	
-	<div id="UserModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel" aria-hidden="true">
-	  <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="UserModalLabel">Modifica Utente</h3>
-	  </div>
-	  <div class="modal-body">
-		<form class="form-horizontal" id="UserModalForm" action="{{ url_for('auth.admin.users_save') }}" method="post">
-			<input type="hidden" id="inputId" name="userid" value="">
-		  <div class="control-group">
-			<label class="control-label">Tipologia Utente</label>
-			<div class="controls">
-			{% for (typeid, typedesc) in usertypes.iteritems() %}
-				<label class="radio inline">
-					<input type="radio" name="usertype" value="{{ typeid }}"> {{ typedesc }}
-				</label>
-			{% endfor %}
+	<div id="UserModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Create or modify user</h4>
+				</div>
+				<div class="modal-body">
+					<form id="umForm" class="form-horizontal" action="" method="post">
+						<div class="form-group">
+							<label class="col-md-3 control-label">User type *</label>
+							<div class="col-md-9">
+								{% for (typeid, typedesc) in usertypes.iteritems() %}
+									<label class="radio-inline">
+										<input type="radio" name="usertype" value="{{ typeid }}"> {{ typedesc }}
+									</label>
+								{% endfor %}
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Name/description</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" id="inputName" name="name" placeholder="">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Username *</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" id="inputUsername" name="username" placeholder="unique username">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Password</label>
+							<div class="col-md-9">
+								<div class="row">
+									<div class="col-md-6">
+										<input type="password" class="form-control" id="inputPassword" name="password" placeholder="">
+									</div>
+									<div class="col-md-6">
+										<input type="password" class="form-control" id="inputPasswordConfirm" placeholder="retype password">
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Notes</label>
+							<div class="col-md-9">
+								<textarea class="form-control" id="inputNotes" name="notes"></textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-3 control-label">Role *</label>
+							<div class="col-md-9">
+								<select class="form-control" id="inputRole" name="role">
+								{% for (roleid, roledesc) in userroles.iteritems() %}
+									<option value="{{ roleid }}">{{ roledesc }}</option>
+								{% endfor %}
+								</select>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary">Save</button>					
+				</div>
 			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" for="inputName">Nome</label>
-			<div class="controls">
-			  <input type="text" id="inputName" name="name" placeholder="Nome o descrizione">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" for="inputUsername">Username</label>
-			<div class="controls">
-			  <input type="text" id="inputUsername" name="username" placeholder="Username">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" for="inputPassword">Password</label>
-			<div class="controls">
-			  <input type="password" id="inputPassword" name="password" placeholder="Password">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<div class="controls">
-			  <input type="password" id="inputPasswordChk" name="passwordchk" placeholder="Conferma password">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" for="inputNotes">Note</label>
-			<div class="controls">
-			  <textarea id="inputNotes" name="notes"></textarea>
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" for="inputRole">Ruolo</label>
-			<div class="controls">
-				<select id="inputRole" name="role">
-				{% for (roleid, roledesc) in userroles.iteritems() %}
-					<option value="{{ roleid }}">{{ roledesc }}</option>
-				{% endfor %}
-				</select>
-			</div>
-		  </div>
-		</form>
-	  </div>
-	  <div class="modal-footer">
-		Ultimo login: <span id="UserModalLastLogin"></span>
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-		<button class="btn btn-primary" id="UserModalSaveBtn" onclick="saveUser()">Salva</button>
-	  </div>
+		</div>
 	</div>
+
 {%- endblock %}
 
 

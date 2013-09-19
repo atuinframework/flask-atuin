@@ -23,12 +23,12 @@ class User(db.Model):
 	
 	usertypes_d = collections.OrderedDict([
 		('staff', "Staff"),
-		('customer', "Cliente"),
+		('customer', "Customer"),
 	])
 	
 	roles_d = collections.OrderedDict([
-		('ADMIN', "Amministratore"),
-		('CUSTOMER', "Cliente"),
+		('ADMIN', "Administrator"),
+		('CUSTOMER', "Customer"),
 	])
 	
 	def __repr__(self):
