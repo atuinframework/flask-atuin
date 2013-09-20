@@ -29,7 +29,7 @@
 						{{ user.role_translated() }}
 					</td>
 					<td>
-						<button class="btn btn-danger btn-sm">Delete</button>
+						<button class="btn btn-danger btn-sm deleteUser" data-url="{{ url_for('auth.admin.users_delete', userid=user.id) }}">Delete</button>
 					</td>
 				</tr>
 			{% endfor %}

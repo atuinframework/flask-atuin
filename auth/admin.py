@@ -68,3 +68,11 @@ def users_save(userid=None):
 	flash(u'User %s saved' % user.username)
 	return redirect(url_for('auth.admin.users_index'))
 
+@bp.route("/users/<int:userid>", methods=['DELETE'])
+@login_required
+def users_delete(userid):
+	user = User.query.get_or_404(userid)
+	db.session.delete(user)
+	db.session.commit()
+	
+	return 'OK'

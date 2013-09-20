@@ -18,7 +18,23 @@ var umResetForm = function (data) {
 		$('#inputNotes').val(data.notes);
 		$('#inputRole').val(data.role);
 	}
+	$('#umForm .has-error').removeClass('has-error');
+};
+
+var umValidateForm = function () {
+	var all_ok = true;
 	
+	if ($('#inputUsername').val() == '') {
+		$('#inputUsername').parents('.form-group').addClass('has-error');
+		all_ok = false;
+	}
+	
+	if (($('#inputPassword').val() != '') && ($('#inputPassword').val() != $('#inputPasswordConfirm').val())) {
+		$('#inputPassword').parents('.form-group').addClass('has-error');
+		all_ok = false;
+	}
+	
+	return all_ok;
 };
 
 $(function () {
@@ -43,6 +59,29 @@ $(function () {
 	});
 	
 	$('#UserModal .saveBtn').on('click', function () {
-		$('#umForm').submit();
+		if (umValidateForm()) {
+			$('#umForm').submit();
+		}
+	});
+	
+	$('.deleteUser').on('click', function () {
+		var row = $(this);
+		$.ajax(
+			$(this).data('url'),
+			{
+				type: 'DELETE'
+			}
+		)
+		.done( function (res) {
+			if (res=='OK') {
+				//code
+				row.parents('tr').fadeOut();
+			}
+			else {
+				window.alert("ERROR!");
+			}
+		});
+		
+		return false;
 	});
 });
