@@ -1,7 +1,7 @@
 # - coding: utf-8 -
 import datetime
 from flask.blueprints import Blueprint
-from flask import render_template, jsonify, flash, request, session, redirect
+from flask import render_template, jsonify, flash, request, session, redirect, url_for
 
 from auth import login_required, current_user
 
@@ -66,5 +66,5 @@ def users_save(userid=None):
 	db.session.commit()
 	
 	flash(u'User %s saved' % user.username)
-	return redirect('auth.admin.users_index')
+	return redirect(url_for('auth.admin.users_index'))
 
