@@ -65,11 +65,19 @@ def func():
 if settings.MULTILANGUAGE:
 	@babel.localeselector
 	def get_locale():
+		# lang in path
 		lang = request.path[1:].split('/', 1)[0]
 		if lang in settings.MULTILANGUAGE_LANGS:
 			return lang
-		else:
-			return settings.MULTILANGUAGE_LANGS[0]
+
+		#lang in accept-language header
+		if request.accept_languages:
+			lang = request.accept_languages[0][0].split('-')[0]
+			if lang in settings.MULTILANGUAGE_LANGS:
+				return lang
+
+		# default lang
+		return settings.MULTILANGUAGE_LANGS[0]
 	
 
 @app.context_processor
