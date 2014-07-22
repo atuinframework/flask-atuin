@@ -1,7 +1,8 @@
 import datetime
-import random
 import hashlib
 import collections
+
+from passlib.hash import sha256_crypt
 
 from datastore import db
 
@@ -46,25 +47,12 @@ class User(db.Model):
 	def is_authenticated(self):
 		return True
 	
-	def __pwd(self, password, salt=None):
-		if not salt:
-			salt = ''
-			for x in xrange(random.randint(6, 10)):
-				salt += chr(random.randint(ord('0'), ord('z')))
-			
-		hashed = hashlib.sha256(salt + password).hexdigest()
-		pwd = '$$'.join((salt, hashed))
-		return pwd
-	
 	def set_password(self, password):
-		pwd = self.__pwd(password)
+		pwd = sha256_crypt.encrypt(password)
 		self.password = pwd
 		
 	def check_password(self, password):
-		salt = self.password.split('$$')[0]
-		pwd = self.__pwd(password, salt)
-		
-		if pwd == self.password:
+		if sha256_crypt.verify(password, self.password):
 			#login ok
 			return True
 		
