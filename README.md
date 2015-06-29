@@ -10,16 +10,20 @@ Atuin is Scalebox's Flask web application skeleton
  - Flask-SQLAlchemy (pip install flask-sqlalchemy)
  - flask-cache (pip install flask-cache)
  - flask-babel (pip install flask-babel)
+ - flask-migrate (pip install flask-migrate)
  - requests (pip install requests)
+ - blinker (pip install blinker)
+ - passlib (pip install passlib)
+ - markdown (pip install markdown) (used for html-formatting functionalities)
 
 Install all:
 
     apt-get install python-dev
-    pip install -U flask flask-login sqlalchemy flask-sqlalchemy flask-cache flask-babel requests
+    pip install -U flask flask-login sqlalchemy flask-sqlalchemy flask-cache flask-babel flask-migrate requests markdown passlib blinker
 
 ## Launch devserver
 
-    ./dev.py
+    ./dev.py runserver
 
  or, for external use
 
@@ -72,7 +76,7 @@ Installation
         
         	location /static/bootstrap {
                 alias /home/project/prj/static/bootstrap/;
-        	expires 24h;
+			    expires 24h;
         	}
         
         	location / {
@@ -87,7 +91,7 @@ Installation
 
  - activate it
  
-        ln -s _/etc/nginx/sites-available/project_ _/etc/nginx/sites-enabled/project_
+        ln -s /etc/nginx/sites-available/project /etc/nginx/sites-enabled/project
 
 
 # Other tools
@@ -100,8 +104,22 @@ with `auth.models` preloaded
 
     ./shell.py auth
 
-## DB reset:
+## DB Manage and migrations
 
-	./initdb.py
- 
+FlaskAtuin uses Flask-migrate
 
+### First db init (used only when project is **started**)
+
+    ./initdb.py db init
+
+### Upgrade to latest migrations
+
+    ./initdb.py db upgrade
+
+### To generate new migration
+
+    ./initdb.py db migrate -m "description"
+
+*check the files* and then **apply**
+
+    ./initdb.py db upgrade

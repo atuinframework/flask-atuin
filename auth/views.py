@@ -7,6 +7,7 @@ import datetime
 bp = Blueprint('auth', __name__)
 
 from models import db, User
+from logs.models import Log
 
 @login_manager.user_loader
 def load_user(id):
@@ -24,18 +25,23 @@ def login():
 				if login_user(u):
 					u.last_login = datetime.datetime.now()
 					db.session.commit()
+					Log.log_event('LOGIN', "{} from {}".format(u.username, request.remote_addr))
 					return redirect(request.form.get("next") or '/')
 				else:
 					#error
+					Log.log_event('LOGINERROR', "{} from {}".format(u.username, request.remote_addr))
 					flash('Login error')
 			else:
 				#error invalid user/pass
+				Log.log_event('LOGIN-PWDERR', "{} from {}".format(u.username, request.remote_addr))
 				flash('Unknown username or password')
 		else:
 			#invalid user
 			flash('Unknown username or password')
 	
-	return render_template('auth/loginpage.html', menuid="login", next=request.args.get("next"))
+	return redirect('/')
+	
+	#return render_template('auth/loginpage.html', menuid="login", next=request.args.get("next"))
 
 @bp.route("/logout", methods=['GET'])
 @login_required

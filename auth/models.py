@@ -1,15 +1,19 @@
 import datetime
+import random
 import hashlib
 import collections
 
 from passlib.hash import sha256_crypt
+from mailing import send_mail
 
-from datastore import db
+from datastore import db, hybrid_property, backref
+
 
 class User(db.Model):
 	__tablename__ = 'users'
 	
 	id = db.Column(db.Integer, primary_key=True)
+	public_id = db.Column(db.Integer, index=True)
 	usertype = db.Column(db.String)
 	username = db.Column(db.String, unique=True, index=True)
 	password = db.Column(db.String)
@@ -17,10 +21,28 @@ class User(db.Model):
 	notes = db.Column(db.Text)
 	role = db.Column(db.String, index=True)
 	
+	birthday = db.Column(db.Date)
+	gender = db.Column(db.String)
+	
+	address_city = db.Column(db.String)
+	address_zip = db.Column(db.String)
+	address_country = db.Column(db.String)
+	
+	otp = db.Column(db.String, default=None)
+	otp_expire = db.Column(db.DateTime, default=None)
+	
+	active_until = db.Column(db.DateTime, default=None, index=True)
+	
 	ins_timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
 	upd_timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
 	
 	last_login = db.Column(db.DateTime, default=None)
+	
+	policies = db.relationship('UserPolicy',
+							   lazy='joined')
+	
+	__table_args__ = (		db.Index('ix_otp_expire_otp', 'otp_expire', 'otp'),
+								)
 	
 	usertypes_d = collections.OrderedDict([
 		('staff', "Staff"),
@@ -29,11 +51,13 @@ class User(db.Model):
 	
 	roles_d = collections.OrderedDict([
 		('ADMIN', "Administrator"),
-		('CUSTOMER', "Customer"),
+		('AGENT', "Agent"),
+		('USER', "User"),
 	])
 	
 	def __repr__(self):
 		return "<User %s %s usertype=%s>" % (self.id, self.username, self.usertype)
+	
 	
 	def get_id(self):
 		return self.id
@@ -63,6 +87,89 @@ class User(db.Model):
 		
 	def role_translated(self):
 		return self.roles_d.get(self.role, self.role)
+	
+	@property
+	def age(self):
+		try:
+			age = (datetime.date.today() - self.birthday).days / 365.2425
+		except:
+			age = 0
+		return int(age)
+	
+	@classmethod
+	def check_otp(cls, otp):
+		user = cls.query.filter(cls.otp_expire > datetime.datetime.now(), cls.otp == otp).first()
+		if user:
+			#invalidate it
+			user.otp_expire = datetime.datetime.now()
+		
+		return user
+	
+	def generate_otp(self):
+		otp = hashlib.sha256(str(random.randint(99999, 999999))).hexdigest()
+		self.otp = otp
+		self.otp_expire = datetime.datetime.now() + datetime.timedelta(hours=24)
+		
+		return otp
+	
+	def send_email(self, subject, message):
+		res = send_mail(subject, message, [
+			{ 'email': self.username },
+		])
+		return res
+	
+	def _generate_public_id(self):
+		self.public_id = int( str(self.id) + str(random.randint(1000, 9999)) )
+	
+	def has_function(self, func):
+		if self.role == 'ADMIN':
+			return True
+		
+		if not self.policies:
+			return False
+		
+		if not hasattr(self, 'functions'):
+			self.functions = self.policies[0].functions.split(',')
+		
+		return (func in self.functions)
+	
+	def as_dict(self, show=None, hide=None, recurse=None):
+		""" Return a dictionary representation of this model.
+		"""
+		
+		obj_d = {
+			'id'				: self.id,
+			'public_id'			: self.public_id,
+			'usertype'			: self.usertype,
+			'username'			: self.username,
+			'name'				: self.name,
+			'notes'				: self.notes,
+			'role'				: self.role,
+			
+			'birthday'			: self.birthday.isoformat() if self.birthday else None,
+			'gender'			: self.gender,
+			
+			'address_city'		: self.address_city,
+			'address_zip'		: self.address_zip,
+			'address_country'	: self.address_country,
+			
+			'active_until'			: self.active_until.isoformat() if self.active_until else None,
+			'last_login'			: self.last_login.isoformat() if self.last_login else None,
+			
+			'ins_timestamp'	: self.ins_timestamp.isoformat() if self.ins_timestamp else None,
+			'upd_timestamp'	: self.upd_timestamp.isoformat() if self.upd_timestamp else None,
+		}
+		
+		return obj_d
+		
+
+
+class UserPolicy(db.Model):
+	__tablename__ = 'policies'
+	
+	role = db.Column(db.String, db.ForeignKey('users.role'), primary_key=True)
+	functions = db.Column(db.Text)
+	
 	
 #class UserSession(db.Model):
 #	id = db.Column(db.Integer, primary_key=True)

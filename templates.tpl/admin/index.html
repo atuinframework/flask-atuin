@@ -1,5 +1,26 @@
 {% extends 'admin/base.html' %}
 
-{% block content_right %}
-<h2>Dashboard</h2>
+{% block contentbody %}
+<div class="container-fluid">
+	<h1 class="page-header">Benvenuto {{ current_user.name }}</h1>
+	<p>
+		Description of dashboard
+	</p>
+	<div class="row">
+		<div class="col-md-7">
+			{% if logs %}
+				{% include 'admin/logs_panel.html' %}
+			{% endif %}
+		</div>
+		<div class="col-md-5">
+			ABC
+			
+		</div>
+	</div>
+</div>	
+	
+{% endblock %}
+
+{% block foot %}
+	<script src="/static/js/admin/base.js"></script>
 {% endblock %}

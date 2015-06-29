@@ -1,10 +1,13 @@
 # -.- coding: utf-8 -.-
 #db utilities
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy, models_committed
+from flask import current_app
 
 db = SQLAlchemy()
 from sqlalchemy import event
 from sqlalchemy.orm.attributes import NO_VALUE, NEVER_SET
+from sqlalchemy.ext.hybrid import *
+from sqlalchemy.orm import backref
 
 import settings
 
