@@ -1,2 +1,0 @@
-Empty dir. May contain sqlite databases, mainly for development purposes.
-Production *should* use a different location.
