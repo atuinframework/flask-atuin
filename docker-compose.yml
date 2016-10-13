@@ -1,0 +1,35 @@
+version: '2'
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+    volumes:
+     - ./app:/var/uwsgi
+    depends_on:
+     - mariadb
+  tools:
+    build:
+      context: .
+      dockerfile: Dockerfile.tools
+    volumes:
+     - ./app:/workspace/app
+  mariadb:
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb
+    environment:
+     - MYSQL_ROOT_PASSWORD=rootpwd
+    volumes:
+     - dbdata:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+     - "5001:80"
+    depends_on:
+     - mariadb
+    links:
+     - "mariadb:db"
+
+volumes:
+  dbdata:

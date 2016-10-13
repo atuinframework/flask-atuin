@@ -1,0 +1,5 @@
+Pillow>=2.3.0
+MySQL-python>=1.2.5
+codicefiscale==0.8
+WeasyPrint==0.24
+PyPDF2>=1.25
