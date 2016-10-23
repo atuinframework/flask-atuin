@@ -8,6 +8,10 @@ Atuin is Scalebox's Flask web application skeleton
 
 ...
 
+## Custom requirements
+
+...
+
 # Running in production
 
 ...

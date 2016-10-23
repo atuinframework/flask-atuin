@@ -1,2 +1,5 @@
-FROM scalebox/atuin-gulp
+FROM scalebox/atuin-gulp:v2
+MAINTAINER Paolo Casciello <paolo.casciello@scalebox.it>
+
+#FROM atg
 

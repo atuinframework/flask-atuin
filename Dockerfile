@@ -1,6 +1,6 @@
 # vim:set ft=dockerfile:
 
-# LOCAL DEVEL Dockerfile Test uWSGI
+# LOCAL DEVELOPMENT Dockerfile
 
 FROM scalebox/atuin-flask-webdev
 
@@ -19,3 +19,7 @@ COPY ./requirements.txt /var/uwsgi/
 WORKDIR /var/uwsgi
 
 RUN pip install -r requirements.txt
+
+# WHILE DEVELOPING NEW ATUIN VERSION
+# override start.sh
+COPY ./start.sh /var/uwsgi-commands
