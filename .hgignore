@@ -4,13 +4,11 @@ syntax: glob
 templates/.tmp_*
 _generated_media/*
 *.komodoproject
-sqlite_databases/*.db
-sqlite_databases/*.tgz
 # Project specific
-config.py
-urls.py
-templates
-static
-home
+#config.py
+#urls.py
+#templates
+static/min
+#home
 migrations
 

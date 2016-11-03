@@ -10,6 +10,7 @@ bp = Blueprint('atuin.js_translations', __name__)
 @bp.route(u'de/js_translations.js', endpoint='index_de')
 @bp.route(u'fr/js_translations.js', endpoint='index_fr')
 @bp.route(u'es/js_translations.js', endpoint='index_es')
+@bp.route(u'js_translations.js', endpoint='index')
 def index():
 	resp = make_response(render_template('atuin/js_translations/base.js'))
 	resp.headers['Content-Type'] = 'application/javascript'

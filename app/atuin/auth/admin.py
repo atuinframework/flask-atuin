@@ -16,7 +16,7 @@ def users_index():
 	usertypes = User.usertypes_d
 	userroles = User.roles_d
 	
-	return render_template("auth/admin/users.html", menuid='admin', submenuid='users', users=users, usertypes=usertypes, userroles=userroles)
+	return render_template("atuin/auth/admin/users.html", menuid='admin', submenuid='users', users=users, usertypes=usertypes, userroles=userroles)
 
 
 @bp.route("/users/<int:userid>")
