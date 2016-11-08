@@ -10,5 +10,5 @@ _generated_media/*
 #templates
 static/min
 #home
-migrations
+#migrations
 
