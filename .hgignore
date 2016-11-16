@@ -9,6 +9,7 @@ _generated_media/*
 #urls.py
 #templates
 static/min
+docs/_build
 #home
 #migrations
 
