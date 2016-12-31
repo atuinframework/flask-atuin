@@ -113,14 +113,49 @@ Now it's time to test if all is working! ::
 	
 The first execution could be slow as it rebuilds the containers image and downloads the missing ones.
 
-Once everything started let's try our new website by connecting to http://localhost:5000
+Once everything is started let's try our new website by connecting to http://localhost:5000
 
 You'll se an Hello World screen followed by a login form. It worked!
 
 Our first template
 ------------------
 
-...
+In Atuin there are two types of templates: the Atuin's builtin and your custom app templates.
+
+Let's check if all is working by modifying our homepage template.
+
+templates/home/index.html
+*************************
+
+Change the titles ::
+
+	{% extends 'atuin/base.html' %}
+	
+	{% block content %}
+	
+	<div class="row" style="margin-top:20%">
+		<div class="col-md-4 col-md-offset-4">
+			<h3>This is Atuitter</h3>
+			<div class="panel panel-default">
+				<div class="panel-heading text-center">
+					<h4 class="panel-title">Atuin's microblogging</h4>
+				</div>
+				<div class="panel-body">
+					{% include 'atuin/auth/loginform.html' %}
+				</div>
+				<div class="panel-footer">
+					<button class="btn btn-block btn-primary btnLogin" autocomplete="off">Login</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	{% endblock %}
+
+Reload and we will see our new titles in the login form.
+
+Our template extends Atuin's built in `atuin/base.html` (which is `atuin/templates/atuin/base.html`).
+It defines the main page layout including Bootstrap, JQuery and Atuin's generated javascript files.
 
 We need a database
 ------------------
