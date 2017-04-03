@@ -1,4 +1,4 @@
 FROM mariadb
 
-COPY mariadb.cnf /etc/mysql/conf.d/mariadboverride.cnf
+COPY config/mariadb.cnf /etc/mysql/conf.d/mariadboverride.cnf
 
