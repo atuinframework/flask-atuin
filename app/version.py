@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 version = (0, 0, 1)
 date = (14, 10, 2016)
 

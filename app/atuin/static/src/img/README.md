@@ -1,1 +1,1 @@
-## Images directory
+# Atuin images directory

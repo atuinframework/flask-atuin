@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 
 from atuin.datastore import db
@@ -26,7 +27,3 @@ class Log(db.Model):
 		tmp_session = db.create_scoped_session()
 		tmp_session.add(l)
 		tmp_session.commit()
-		
-		
-		
-	

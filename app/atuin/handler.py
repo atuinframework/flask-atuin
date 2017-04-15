@@ -1,4 +1,4 @@
-# - coding: utf-8 -
+# -*- coding: utf-8 -*-
 from flask import Flask, g, request, url_for, session
 from werkzeug.routing import BuildError
 from flask_caching import Cache

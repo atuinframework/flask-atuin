@@ -1,4 +1,4 @@
-# - coding: utf-8 -
+# -*- coding: utf-8 -*-
 import time
 from flask.blueprints import Blueprint
 from flask import render_template, make_response

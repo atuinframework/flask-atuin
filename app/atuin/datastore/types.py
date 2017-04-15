@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 from sqlalchemy.types import TypeDecorator, TEXT
 import json
 

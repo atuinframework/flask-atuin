@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # from sparkpost import SparkPost
 # 
 # from logs.models import Log

@@ -1,1 +1,1 @@
-## Website specific CSS files
+# Atuin specific CSS files

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Configuration template file. Copy it to config.py
 import os
 

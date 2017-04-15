@@ -1,4 +1,4 @@
-# -.- coding: utf-8 -.-
+# -*- coding: utf-8 -*-
 #db utilities
 from flask_sqlalchemy import SQLAlchemy, models_committed, BaseQuery
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import flask_login as login
 setattr(login.AnonymousUserMixin, "username", "GUEST")
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 from flask.blueprints import Blueprint
 from flask import request, redirect, flash, render_template, session
