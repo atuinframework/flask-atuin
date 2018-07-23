@@ -1,6 +1,15 @@
 # Flask - Atuin
 
-Atuin is Scalebox's Flask web application skeleton
+[Atuin Web Framework] is a Flask powered web application framework built by 
+[SCALEBOX s.r.l.] an Italian IT company that provides a complete web application
+ skeleton.
+
+Goal of Atuin is maintaining the same developing philosophy when dealing with 
+*traditional* relational database stack or when targeting Google App Engine 
+environment and using the Google Datastore.
+
+Atuin includes some useful Flask extensions for common tasks such as 
+authentication, localization, caching.
 
 ## Develop using Docker
 
@@ -49,3 +58,6 @@ FlaskAtuin uses Flask-migrate
 # Translations
 
 ...
+
+[Atuin Web Framework]: https://github.com/atuinframework
+[SCALEBOX s.r.l.]: https://www.scalebox.it/
