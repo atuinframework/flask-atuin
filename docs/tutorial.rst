@@ -8,27 +8,29 @@ We will create a basic Twitter clone.
 Prerequisites
 -------------
 
-* Working Mercurial version control system (Git is planned in the future)
+* Working git version control system
 * Working Docker with Docker-Compose support
 
 Start a new project
 -------------------
 
-Using Mercurial
-***************
+Using Git
+*********
 
 You can clone the latest Flask-Atuin version and then copy the package::
 
-	$ hg clone https://xcash@bitbucket.org/scalebox/flask-atuin
+	$ git clone git@github.com:atuinframework/flask-atuin.git
 	$ cd flask-atuin
 	
-**only until release** move on v2 branch ::
-	
-	$ hg up -C xcash-v2
-	
-Create an unversioned project directory::
+**Move to latest release**::
+
+	$ git checkout tags/<release_name>
+
+Look for the latest release here: `flask-atuin/releases`_
+
+Remove the `.git` directory, so to start with your new project::
   
-	$ hg archive <destination-folder like ../atuitter>
+	$ rm -rf .git
 	
 Using an archived package
 *************************
@@ -136,7 +138,7 @@ Change the titles ::
 	
 	<div class="row" style="margin-top:20%">
 		<div class="col-md-4 col-md-offset-4">
-			<h3>This is Atuitter</h3>
+			<h3>{% trans %}This is Atuitter{% endtrans %}</h3>
 			<div class="panel panel-default">
 				<div class="panel-heading text-center">
 					<h4 class="panel-title">Atuin's microblogging</h4>
@@ -205,3 +207,4 @@ What about backend?
 
 
 
+.. _flask-atuin/releases: https://github.com/atuinframework/flask-atuin/releases
