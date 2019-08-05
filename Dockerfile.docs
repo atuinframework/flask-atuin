@@ -2,9 +2,9 @@
 
 # Docs generation Dockerfile
 
-FROM scalebox/atuin-flask-webdev
+FROM atuinframework/flask-atuin-devenv
 
-MAINTAINER Paolo Casciello <paolo.casciello@scalebox.it>
+LABEL maintainer="Paolo Casciello <paolo.casciello@scalebox.it>"
 
 RUN mkdir /workspace
 WORKDIR /workspace/docs
