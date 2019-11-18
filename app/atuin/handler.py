@@ -5,11 +5,11 @@ from flask_caching import Cache
 from flask_babel import Babel, get_locale as babel_get_locale
 import os
 import jinja2
-import settings
+from . import settings
 import version
 import languages
-import datastore
-import auth
+from . import datastore
+from . import auth
 
 app = Flask(__name__)
 app.debug = settings.DEBUG
@@ -131,25 +131,7 @@ def inject_custom():
 
 for (mount_position, mount_module) in settings.mounts:
 	app.register_blueprint(mount_module.bp, url_prefix=mount_position)
-	
-if settings.NEWRELIC:
-	try:
-		import newrelic.agent
-		newrelic.agent.initialize(settings.NEWRELIC_CONFIG)
-		app2 = newrelic.agent.wsgi_application()(app)
-		#monkey patching
-		app2.run = app.run
-		app2.test_request_context = app.test_request_context
-		app = app2
-	except:
-		pass
-	
-if settings.SENTRY_DSN:
-	from raven.contrib.flask import Sentry
-	app.config['SENTRY_DSN'] = settings.SENTRY_DSN
-	sentry = Sentry(app)
 
-# if settings.S3_ACCESS_KEY_ID:
-# 	app.config['S3_ACCESS_KEY_ID'] = settings.S3_ACCESS_KEY_ID
-# 	app.config['S3_SECRET_ACCESS_KEY'] = settings.S3_SECRET_ACCESS_KEY
-# 	app.config['S3_REGION_NAME'] = settings.S3_REGION_NAME
+# Globals custom config used by the application and defined in config.py
+if settings.APPCONFIG:
+	app.config['APPCONFIG'] = settings.APPCONFIG

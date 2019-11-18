@@ -23,16 +23,6 @@ MULTILANGUAGE_LANGS = ['en', ]
 #CACHE_CONFIG = {'CACHE_TYPE': 'memcached'}
 CACHE_CONFIG = {'CACHE_TYPE': 'simple'}
 
-# whether to use newrelic (autodiscovery mode)
-NEWRELIC = False
-NEWRELIC_CONFIG = "newrelic.ini"
-
-# whether to use sentry
-SENTRY_DSN = False
-
-# S3 Auth Keys and bucket
-S3_ACCESS_KEY_ID = ""
-S3_SECRET_ACCESS_KEY = ""
-S3_REGION_NAME = ""
-S3_BUCKET_NAME = ""
-
+APPCONFIG = {
+    'customvar1': 'MyValue 1'
+}

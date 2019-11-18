@@ -2,7 +2,7 @@
 
 # LOCAL DEVELOPMENT Dockerfile
 
-FROM atuinframework/flask-atuin-devenv:v3-py2
+FROM atuinframework/flask-atuin-devenv:v3-py3
 
 LABEL maintainer="Paolo Casciello <paolo.casciello@scalebox.it>"
 
@@ -12,5 +12,5 @@ WORKDIR /var/wsgi
 
 RUN pip install -r requirements.txt
 
-# IS POSSIBLE TO OVERRIDE STARTING SCRIPT
+# IT IS POSSIBLE TO OVERRIDE STARTING SCRIPT
 # COPY ./start.sh /var/wsgi-commands

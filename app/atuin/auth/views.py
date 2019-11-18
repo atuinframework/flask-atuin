@@ -7,7 +7,7 @@ from atuin.auth import login_manager, login_required
 
 bp = Blueprint('atuin.auth', __name__)
 
-from models import db, User
+from .models import db, User
 from atuin.logs.models import Log
 
 

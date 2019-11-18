@@ -7,7 +7,7 @@ from atuin.auth import login_required, current_user
 
 bp = Blueprint('atuin.auth.admin', __name__)
 
-from models import db, User
+from .models import db, User
 
 @bp.route("/users")
 @login_required
